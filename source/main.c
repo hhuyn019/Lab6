@@ -66,13 +66,24 @@ void TimerSet(unsigned long M) {
 void main() {
    	DDRC = 0xFF;
 	PORTC = 0x00;
-	TimerSet(125);
+	TimerSet(3000);
 	TimerOn();
+	//unsigned char button = 0x00;
 	unsigned char tmpB = 0x00;
-	while(1) {
-		tmpB = ~tmpB; 
-		PORTC = tmpB;
-		while (!TimerFlag);
-		TimerFlag = 0;
+	while(1) { 
+		//button = PINA & 0x01;
+		Tick();
 	}
+}
+
+void Tick() {
+	PORTC = 0x01;
+	while (!TimerFlag);
+	TimerFlag = 0;
+	PORTC = 0x02;
+	while (!TimerFlag);
+	TimerFlag = 0;
+	PORTC = 0x04;
+	while (!TimerFlag);
+	TimerFlag = 0;
 }
